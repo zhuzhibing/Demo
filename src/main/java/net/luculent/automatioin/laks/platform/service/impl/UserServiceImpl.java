@@ -25,7 +25,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity queryUser(String userName, String password) {
-        return null;
+
+        return userDao.queryUserOne(userName,password);
     }
 
     public int updateUserById(Map<String, Object> user) {

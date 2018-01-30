@@ -31,17 +31,20 @@ public class HttpAspect {
      */
     @Before("http()")
     public void doBefore() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-
-        Enumeration enu = request.getParameterNames();
-        String logInfo = "";
-        while (enu.hasMoreElements()) {
-            String paraName = (String) enu.nextElement();
-            logInfo += paraName + ": " + request.getParameter(paraName);
-        }
         if (logger.isInfoEnabled()) {
-            logger.info(logInfo);
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request = attributes.getRequest();
+
+            String requestURL = request.getRequestURI();
+
+            Enumeration enu = request.getParameterNames();
+            String logInfo = "";
+            while (enu.hasMoreElements()) {
+                String paraName = (String) enu.nextElement();
+                logInfo += "|" + paraName + "=" + request.getParameter(paraName);
+            }
+
+            logger.info("requestURL >>'" + requestURL + "', " + "requestParam >>" + logInfo);
         }
 
     }

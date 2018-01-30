@@ -40,7 +40,7 @@ public class TokenVerifyAspect {
     private TokenService tokenService;
 
     /**
-     * 对实现TokenCheck类进行token验证
+     * 对实现TokenController类进行token验证
      */
     @Pointcut("execution(* net.luculent.automatioin.laks.platform.controller.TokenController+.*(..))")
     public void serviceTokenVerify() {

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import net.luculent.automatioin.laks.platform.controller.BaseController;
+import net.luculent.automatioin.laks.platform.controller.TokenController;
 import net.luculent.automatioin.laks.platform.domain.Result;
 import net.luculent.automatioin.laks.platform.file.FileTransfer;
 import net.luculent.automatioin.laks.services.article.service.IArticleService;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/services")
-public class ArticleController extends BaseController {
+public class ArticleController extends BaseController implements TokenController {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
