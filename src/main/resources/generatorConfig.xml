@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+		"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<classPathEntry
+			location="/Users/dingliubing/.m2/repository/org/postgresql/postgresql/9.4.1212.jre7/postgresql-9.4.1212.jre7.jar" />
+	<!-- 一个数据库一个context -->
+	<context id="datasource">
+
+		<!-- 注释 -->
+		<commentGenerator >
+			<property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+			<property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳-->
+		</commentGenerator>
+
+		<!-- jdbc连接 -->
+		<!--<jdbcConnection driverClass="${driver-class-name}"-->
+		                <!--connectionURL="${url}"-->
+		                <!--userId="${username}"-->
+		                <!--password="${password}" />-->
+
+		<jdbcConnection driverClass="org.postgresql.Driver"
+		connectionURL="jdbc:postgresql://192.168.0.33:5432/laks"
+		userId="laks"
+		password="laks">
+
+		</jdbcConnection>
+		<!-- 类型转换 -->
+		<javaTypeResolver>
+			<!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+			<property name="forceBigDecimals" value="false"/>
+		</javaTypeResolver>
+
+
+
+		<!-- 数据表对应的model层  -->
+		<javaModelGenerator targetPackage="net.luculent.automatioin.laks.services.studycenter.entity" targetProject="src/main/java">
+			<property name="enableSubPackages" value="false" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- sql mapper 映射配置文件 -->
+		<sqlMapGenerator targetPackage="net.luculent.automatioin.laks.services.studycenter.mapper"  targetProject="src/main/java">
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+
+		<!-- mybatis3中的mapper接口 -->
+		<javaClientGenerator type="XMLMAPPER" targetPackage="net.luculent.automatioin.laks.services.studycenter.dao"  targetProject="src/main/java">
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+
+		<!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的entity -->
+		<!--<table tableName="t_studymaterialmst"-->
+		       <!--domainObjectName="StudyMaterial"-->
+		       <!--mapperName="StudyMaterialDao"-->
+
+		       <!--enableCountByExample="false"-->
+		       <!--enableUpdateByExample="false"-->
+		       <!--enableDeleteByExample="false"-->
+		       <!--enableSelectByExample="false"-->
+		       <!--selectByExampleQueryId="false">-->
+
+			<!--&lt;!&ndash; 忽略列，不生成bean 字段 &ndash;&gt;-->
+			<!--<ignoreColumn column="material_id" />-->
+			<!--<ignoreColumn column="exta" />-->
+			<!--<ignoreColumn column="extb" />-->
+			<!--&lt;!&ndash; 指定列的java数据类型 &ndash;&gt;-->
+			<!--&lt;!&ndash;<columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />&ndash;&gt;-->
+		<!--</table>-->
+		<!--<table tableName="t_examquestionmst" domainObjectName="ExamQuestion"-->
+		       <!--enableCountByExample="false" enableUpdateByExample="false"-->
+		       <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+		       <!--selectByExampleQueryId="false">-->
+			<!--&lt;!&ndash;&lt;!&ndash; 忽略列，不生成bean 字段 &ndash;&gt;&ndash;&gt;-->
+			<!--&lt;!&ndash;<ignoreColumn column="material_id" />&ndash;&gt;-->
+			<!--<ignoreColumn column="exta" />-->
+			<!--<ignoreColumn column="extb" />-->
+			<!--&lt;!&ndash;&lt;!&ndash; 指定列的java数据类型 &ndash;&gt;&ndash;&gt;-->
+			<!--&lt;!&ndash;&lt;!&ndash;<columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />&ndash;&gt;&ndash;&gt;-->
+		<!--</table>-->
+		<table tableName="t_exam_recordmst" domainObjectName="ExamRecord"
+		       enableCountByExample="false" enableUpdateByExample="false"
+		       enableDeleteByExample="false" enableSelectByExample="false"
+		       selectByExampleQueryId="false">
+			<!--&lt;!&ndash; 忽略列，不生成bean 字段 &ndash;&gt;-->
+			<!--<ignoreColumn column="material_id" />-->
+			<ignoreColumn column="exta" />
+			<ignoreColumn column="extb" />
+			<!--&lt;!&ndash; 指定列的java数据类型 &ndash;&gt;-->
+			<!--&lt;!&ndash;<columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />&ndash;&gt;-->
+		</table>
+
+		<!--<table tableName="t_questionmst" domainObjectName="Question"-->
+		       <!--enableCountByExample="false" enableUpdateByExample="false"-->
+		       <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+		       <!--selectByExampleQueryId="false">-->
+			<!--&lt;!&ndash;&lt;!&ndash; 忽略列，不生成bean 字段 &ndash;&gt;&ndash;&gt;-->
+			<!--&lt;!&ndash;<ignoreColumn column="material_id" />&ndash;&gt;-->
+			<!--<ignoreColumn column="exta" />-->
+			<!--<ignoreColumn column="extb" />-->
+			<!--&lt;!&ndash;&lt;!&ndash; 指定列的java数据类型 &ndash;&gt;&ndash;&gt;-->
+			<!--&lt;!&ndash;&lt;!&ndash;<columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />&ndash;&gt;&ndash;&gt;-->
+		<!--</table>-->
+
+		<!--
+		<table schema="public" tableName="operation" domainObjectName="Operation" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true" ></table>
+		-->
+	</context>
+</generatorConfiguration>

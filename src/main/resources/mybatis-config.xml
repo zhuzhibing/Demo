@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="callSettersOnNulls" value="true"/>
+	</settings>
+ 	<typeAliases>
+		<typeAlias type="net.luculent.automatioin.laks.platform.entity.UserEntity" alias="UserEntity" />
+	</typeAliases>
+
+	<!-- 配置分页插件 -->
+	<plugins>
+		<plugin interceptor="com.github.pagehelper.PageInterceptor">
+			<property name="rowBoundsWithCount" value="true" />
+			<!-- 设置为true时，如果pageSize=0或者RowBounds.limit = 0就会查询出全部的结果 -->
+			<!-- （相当于没有执行分页查询，但是返回结果仍然是Page类型） -->
+		</plugin>
+	</plugins>
+
+	<mappers>
+		<mapper resource="net/luculent/automatioin/laks/platform/entity/mapper/UserMap.xml"></mapper>
+
+		<mapper resource="net/luculent/automatioin/laks/services/article/entity/mapper/TArticlemstMap.xml"></mapper>
+		<mapper resource="net/luculent/automatioin/laks/services/article/entity/mapper/TArticletypemstMap.xml"></mapper>
+
+	</mappers>
+
+</configuration>

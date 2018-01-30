@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.luculent.automatioin.laks.services.article.dao.ArticleDao">
+
+    <insert id="add" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="atcSeq">
+
+        INSERT INTO t_articlemst(
+                atc_title,
+                atc_summary,
+                atc_content,
+                atc_source,
+                img_url,
+                act_type,
+                is_comment,
+                fstusr_id,
+                fstusr_dtm,
+                valid_sta,
+                is_delete,
+                org_seq)
+        VALUES (
+                #{atcTitle,jdbcType=VARCHAR},
+                #{atcSummary,jdbcType=VARCHAR},
+                #{atcContent,jdbcType=VARCHAR},
+                #{atcSource,jdbcType=VARCHAR},
+                #{imgUrl,jdbcType=VARCHAR},
+                #{actType,jdbcType=VARCHAR},
+                #{isComment,jdbcType=VARCHAR},
+                #{fstusrId},
+                #{fstusrDtm},
+                '0',
+                '0',
+                #{orgSeq})
+    </insert>
+
+    <update id="modify" parameterType="java.util.Map">
+        UPDATE t_articlemst
+        <set>
+            <if test="atcTitle != null">
+                atc_title=#{atcTitle},
+            </if>
+            <if test="atcSummary != null">
+                atc_summary=#{atcSummary},
+            </if>
+            <if test="atcContent != null">
+                atc_content=#{atcContent},
+            </if>
+            <if test="atcSource != null">
+                atc_source=#{atcSource},
+            </if>
+            <if test="imgUrl != null">
+                img_url=#{imgUrl},
+            </if>
+            <if test="actType != null">
+                act_type=#{actType},
+            </if>
+            <if test="isComment != null">
+                is_comment=#{isComment},
+            </if>
+            <if test="lstusrId != null">
+                lstusr_id=#{lstusrId},
+            </if>
+            <if test="lstusrDtm != null">
+                lstusr_dtm=#{lstusrDtm},
+            </if>
+
+        </set>
+        WHERE is_delete = '0' AND atc_seq=#{atcSeq};
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        UPDATE t_articlemst SET is_delete = '1'
+        WHERE is_delete = '0' AND atc_seq=#{atcSeq}
+    </delete>
+
+    <select id="queryOne" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT atc_seq, atc_title, atc_summary, atc_content, atc_source, img_url, act_type, is_comment, atc.fstusr_id, atc.fstusr_dtm, usr_name
+        FROM t_articlemst atc, t_usermst WHERE atc.is_delete = '0' AND atc.fstusr_id = usr_id AND atc_seq = #{atcSeq}
+    </select>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT atc_seq, atc_title, atc_summary, atc_content, atc_source, img_url, act_type, is_comment, atc.fstusr_id, atc.fstusr_dtm, usr_name
+        FROM t_articlemst atc, t_usermst
+        <where>
+            atc.is_delete = '0'
+            AND atc.fstusr_id = usr_id
+            <if test="atcType != null and atcType != ''">
+                AND  act_type = #{atcType}
+            </if>
+
+            <if test="atcTitle != null and atcTitle != ''">
+                AND atc_title LIKE '%'||#{atcTitle}||'%'
+            </if>
+
+            ORDER BY fstusr_dtm DESC
+        </where>
+    </select>
+
+    <select id="queryActListForApp" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+            t1.atc_seq as id,
+            t1.atc_title as title,
+            t1.atc_source as source,
+            COUNT( t2.comment_id ) AS comment_num,
+            t1.img_url
+        FROM
+            t_articlemst t1
+            LEFT JOIN ( SELECT comment_id, comment_module_pk FROM t_commentmst WHERE valid_sta = '0' AND is_delete = '0' ) t2 ON t1.atc_seq = t2.comment_module_pk
+        WHERE
+            1 = 1
+            AND t1.act_type = #{actType}
+            AND t1.valid_sta = '0'
+            AND t1.is_delete = '0'
+            AND EXISTS(SELECT communist_id FROM t_communistmst WHERE valid_sta = '0' AND is_delete = '0' AND t1.fstusr_id = usr_id
+                       AND communist_org IN <foreach item="orgs" index="index" collection="orgs" open="(" separator="," close=")"> #{orgs} </foreach> )
+        GROUP BY
+            t1.atc_seq
+        ORDER BY
+            t1.fstusr_dtm DESC
+    </select>
+
+    <select id="queryActByIdForApp" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT
+            t1.atc_seq as id,
+            t1.atc_title as title,
+            t1.atc_content as content,
+            t1.atc_source as source,
+            t1.img_url as img,
+            t1.is_comment as can_comment,
+            t1.fstusr_id as author,
+            t1.fstusr_dtm as pubdate,
+            '0' as has_comment,
+            '0' as has_upvote,
+            ( SELECT count(t2.comment_id)  FROM t_commentmst t2 WHERE t2.comment_module_pk = t1.atc_seq and valid_sta = '0' AND is_delete = '0' ) AS comment_num,
+            ( SELECT count(t3.upvote_id)  FROM t_upvotemst t3 WHERE t3.upvote_module_pk = t1.atc_seq AND is_delete = '0' ) AS upvote_num
+        FROM
+            t_articlemst t1
+        WHERE
+            1 = 1
+            AND is_delete = '0'
+            AND valid_sta = '0'
+            AND atc_seq = #{atcSeq}
+    </select>
+</mapper>

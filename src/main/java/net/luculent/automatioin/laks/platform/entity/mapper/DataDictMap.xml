@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.luculent.automatioin.laks.platform.dao.DataDictDao">
+    <sql id="baseColumnList">
+        dict_id,
+        dict_name,
+        dict_note,
+        exta,
+        extb,
+        fstusr_id,
+        fstusr_dtm,
+        lstusr_id,
+        lstusr_dtm,
+        is_delete,
+        valid_sta,
+        org_seq
+    </sql>
+
+    <insert id="addDataDict" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="dict_id">
+        INSERT INTO t_datadictmst
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dict_name != null and dict_name != ''">
+                dict_name,
+            </if>
+            <if test="dict_note != null and dict_note != ''">
+                dict_note,
+            </if>
+            <if test="exta != null and exta != ''">
+                exta,
+            </if>
+            <if test="extb != null and extb != ''">
+                extb,
+            </if>
+            <if test="fstusr_id != null">
+                fstusr_id,
+            </if>
+            <if test="fstusr_dtm != null">
+                fstusr_dtm,
+            </if>
+            <if test="lstusr_id != null">
+                lstusr_id,
+            </if>
+            <if test="lstusr_dtm != null">
+                lstusr_dtm,
+            </if>
+            <if test="is_delete != null and is_delete != ''">
+                is_delete,
+            </if>
+            <if test="valid_sta != null and valid_sta != ''">
+                valid_sta,
+            </if>
+            <if test="org_seq != null">
+                org_seq,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dict_name != null and dict_name != ''">
+                #{dict_name},
+            </if>
+            <if test="dict_note != null and dict_note != ''">
+                #{dict_note},
+            </if>
+            <if test="exta != null and exta != ''">
+                #{exta},
+            </if>
+            <if test="extb != null and extb != ''">
+                #{extb},
+            </if>
+            <if test="fstusr_id != null">
+                #{fstusr_id},
+            </if>
+            <if test="fstusr_dtm != null">
+                #{fstusr_dtm},
+            </if>
+            <if test="lstusr_id != null">
+                #{lstusr_id},
+            </if>
+            <if test="lstusr_dtm != null">
+                #{lstusr_dtm},
+            </if>
+            <if test="is_delete != null and is_delete != ''">
+                #{is_delete},
+            </if>
+            <if test="valid_sta != null and valid_sta != ''">
+                #{valid_sta},
+            </if>
+            <if test="org_seq != null">
+                #{org_seq},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="queryDataDict" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM t_datadictmst
+        WHERE 1=1
+        AND is_delete = '0' AND valid_sta ='0'
+        <if test="dict_id != null">
+            AND dict_id = #{dict_id}
+        </if>
+        <if test="dict_name != null and dict_name != ''">
+            AND dict_name = #{dict_name}
+        </if>
+        <if test="dict_note != null and dict_note != ''">
+            AND dict_note LIKE '%'|| #{dict_note} ||'%'
+        </if>
+        ORDER BY dict_id ASC
+    </select>
+
+    <update id="updateDataDictById" parameterType="java.util.Map">
+        UPDATE t_datadictmst
+        <set>
+            <if test="dict_name != null">
+                dict_name = #{dict_name},
+            </if>
+            <if test="dict_note != null">
+                dict_note = #{dict_note},
+            </if>
+            <if test="exta != null">
+                exta = #{exta},
+            </if>
+            <if test="extb != null">
+                extb = #{extb},
+            </if>
+            <if test="fstusr_id != null">
+                fstusr_id = #{fstusr_id},
+            </if>
+            <if test="fstusr_dtm != null">
+                fstusr_dtm = #{fstusr_dtm},
+            </if>
+            <if test="lstusr_id != null">
+                lstusr_id = #{lstusr_id},
+            </if>
+            <if test="lstusr_dtm != null">
+                lstusr_dtm = #{lstusr_dtm},
+            </if>
+            <if test="is_delete != null and is_delete != ''">
+                is_delete = #{is_delete},
+            </if>
+            <if test="valid_sta != null and valid_sta != ''">
+                valid_sta = #{valid_sta},
+            </if>
+            <if test="org_seq != null">
+                org_seq = #{org_seq},
+            </if>
+        </set>
+        WHERE 1=1 AND is_delete = '0' AND valid_sta ='0' AND dict_id = #{dict_id}
+    </update>
+
+    <delete id="deleteDataDict" parameterType="java.lang.Integer">
+        UPDATE t_datadictmst
+        SET is_delete = '1'
+        WHERE
+        1 = 1
+        AND is_delete = '0'
+        AND valid_sta = '0'
+        AND dict_id = #{dictId}
+    </delete>
+
+    <delete id="deleteDataDictForReal" parameterType="java.lang.Integer">
+        DELETE
+        FROM
+        t_datadictmst
+        WHERE dict_id = #{dictId}
+    </delete>
+
+    <sql id="baseLinColumnList">
+        lin_id,
+        lin_key,
+        lin_value,
+        dict_id,
+        exta,
+        extb,
+        fstusr_id,
+        fstusr_dtm,
+        lstusr_id,
+        lstusr_dtm,
+        is_delete,
+        valid_sta,
+        org_seq
+    </sql>
+
+    <insert id="addDataDictLin" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="lin_id">
+        INSERT INTO t_datadictlin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lin_key != null and lin_key != ''">
+                lin_key,
+            </if>
+            <if test="lin_value != null and lin_value != ''">
+                lin_value,
+            </if>
+            <if test="dict_id != null">
+                dict_id,
+            </if>
+            <if test="exta != null and exta != ''">
+                exta,
+            </if>
+            <if test="extb != null and extb != ''">
+                extb,
+            </if>
+            <if test="fstusr_id != null">
+                fstusr_id,
+            </if>
+            <if test="fstusr_dtm != null">
+                fstusr_dtm,
+            </if>
+            <if test="lstusr_id != null">
+                lstusr_id,
+            </if>
+            <if test="lstusr_dtm != null">
+                lstusr_dtm,
+            </if>
+            <if test="is_delete != null and is_delete != ''">
+                is_delete,
+            </if>
+            <if test="valid_sta != null and valid_sta != ''">
+                valid_sta,
+            </if>
+            <if test="org_seq != null">
+                org_seq,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lin_key != null and lin_key != ''">
+                #{lin_key},
+            </if>
+            <if test="lin_value != null and lin_value != ''">
+                #{lin_value},
+            </if>
+            <if test="dict_id != null">
+                #{dict_id},
+            </if>
+            <if test="exta != null and exta != ''">
+                #{exta},
+            </if>
+            <if test="extb != null and extb != ''">
+                #{extb},
+            </if>
+            <if test="fstusr_id != null">
+                #{fstusr_id},
+            </if>
+            <if test="fstusr_dtm != null">
+                #{fstusr_dtm},
+            </if>
+            <if test="lstusr_id != null">
+                #{lstusr_id},
+            </if>
+            <if test="lstusr_dtm != null">
+                #{lstusr_dtm},
+            </if>
+            <if test="is_delete != null and is_delete != ''">
+                #{is_delete},
+            </if>
+            <if test="valid_sta != null and valid_sta != ''">
+                #{valid_sta},
+            </if>
+            <if test="org_seq != null">
+                #{org_seq},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="queryDataDictLin" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        <include refid="baseLinColumnList"/>
+        FROM t_datadictlin
+        WHERE 1=1
+        AND is_delete = '0' AND valid_sta ='0'
+        <if test="lin_id != null">
+            AND lin_id = #{lin_id}
+        </if>
+        <if test="dict_id != null">
+            AND dict_id = #{dict_id}
+        </if>
+        <if test="lin_key != null and lin_key != ''">
+            AND lin_key = #{lin_key}
+        </if>
+        <if test="lin_value != null and lin_value != ''">
+            AND lin_value = #{lin_value}
+        </if>
+        ORDER BY lin_id ASC
+    </select>
+
+    <select id="queryDataDictLinByName" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT lin_key AS key, lin_value AS value
+        FROM (
+            SELECT t1.lin_id, t1.lin_key, t1.lin_value
+            FROM t_datadictlin t1
+                LEFT JOIN t_datadictmst t2 ON t1.dict_id = t2.dict_id
+            WHERE t1.is_delete = '0'
+                AND t1.valid_sta = '0'
+                AND t2.is_delete = '0'
+                AND t2.valid_sta = '0'
+                AND t2.dict_name = #{dictName}
+            ORDER BY t1.lin_id
+        ) t
+    </select>
+
+    <update id="updateDataDictLinById" parameterType="java.util.Map">
+        UPDATE t_datadictlin
+        <set>
+            <if test="lin_key != null and lin_key != ''">
+                lin_key = #{lin_key},
+            </if>
+            <if test="lin_value != null and lin_value != ''">
+                lin_value = #{lin_value},
+            </if>
+            <if test="exta != null">
+                exta = #{exta},
+            </if>
+            <if test="extb != null">
+                extb = #{extb},
+            </if>
+            <if test="fstusr_id != null">
+                fstusr_id = #{fstusr_id},
+            </if>
+            <if test="fstusr_dtm != null">
+                fstusr_dtm = #{fstusr_dtm},
+            </if>
+            <if test="lstusr_id != null">
+                lstusr_id = #{lstusr_id},
+            </if>
+            <if test="lstusr_dtm != null">
+                lstusr_dtm = #{lstusr_dtm},
+            </if>
+            <if test="is_delete != null and is_delete != ''">
+                is_delete = #{is_delete},
+            </if>
+            <if test="valid_sta != null and valid_sta != ''">
+                valid_sta = #{valid_sta},
+            </if>
+            <if test="org_seq != null">
+                org_seq = #{org_seq},
+            </if>
+        </set>
+        WHERE 1=1 AND is_delete = '0' AND valid_sta ='0' AND lin_id = #{lin_id}
+    </update>
+
+    <delete id="deleteDataDictLin" parameterType="java.lang.Integer">
+        UPDATE t_datadictlin
+        SET is_delete = '1'
+        WHERE
+        1 = 1
+        AND is_delete = '0'
+        AND valid_sta = '0'
+        AND lin_id = #{linId}
+    </delete>
+
+    <delete id="deleteDataDictLinForReal" parameterType="java.lang.Integer">
+        DELETE
+        FROM
+        t_datadictlin
+        WHERE lin_id = #{linId}
+    </delete>
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.luculent.automatioin.laks.services.article.dao.ArticleTypeDao">
+
+    <select id="queryByParentId" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT * FROM t_articletypemst
+        <where>
+            is_delete = '0'
+            <if test="parentId != null">
+                AND parent_id = #{parentId}
+            </if>
+        </where>
+        ORDER BY fstusr_dtm DESC
+    </select>
+
+</mapper>

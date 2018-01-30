@@ -1,0 +1,77 @@
+## spring-boot
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.0.33:5432/laks
+    username: laks
+    password: laks
+    name: dataSource
+    jmx-enabled: true
+    tomcat:
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-connect: false
+      test-on-return: false
+      validation-interval: 30000
+      validation-query: SELECT 1
+      time-between-eviction-runs-millis: 30000
+      max-active: 50
+      initial-size: 1
+      max-wait: 10000
+      min-evictable-idle-time-millis: 30000
+      min-idle: 1
+      log-abandoned: false
+      remove-abandoned: true
+      remove-abandoned-timeout: 60
+      jdbc-interceptors: org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer
+      max-idle: 50
+  http:
+      encoding:
+        force: true
+        charset: utf-8
+        enabled: true
+      multipart:
+        max-file-size: 2048MB
+        max-request-size: 2048MB
+
+
+  redis:
+    host: 192.168.0.33
+    port: 6379
+    password:
+    timeout: 10000
+    pool:
+      max-active: 8
+      max-idle: 8
+      max-wait: -1
+      pool.min-idle: 0
+
+
+server:
+  port: 8088
+  context-path: /
+  session:
+    timeout: 0
+  tomcat:
+    uri-encoding: UTF-8
+
+logging:
+  config: classpath:logback-spring.xml
+
+## mybatis
+mybatis:
+  config-location: classpath:mybatis-config.xml
+
+
+laks:
+  ftp:
+    ip: 192.168.0.129
+    port: 21
+    username: ftpuser
+    password: ftpuser
+    path: /
+    httpurl: http://192.168.0.129:18085/ftp/dangjian
+  jwt:
+    expires-time: 7200
+    update-interval: 1800
+

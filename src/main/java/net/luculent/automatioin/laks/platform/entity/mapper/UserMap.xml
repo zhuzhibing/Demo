@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.luculent.automatioin.laks.platform.dao.UserDao">
+    <sql id="baseColumnList">
+		usr_id,
+		usr_name,
+		usr_gender,
+		usr_ethnicity,
+		usr_domicile,
+		login_name,
+		usr_pwd,
+		usr_mobile,
+		usr_phone,
+		usr_email,
+		usr_idcard,
+		usr_birthday,
+		usr_education,
+		usr_addr,
+		usr_org,
+		usr_wechat,
+		usr_qq,
+		usr_health,
+		usr_duty,
+		usr_photo,
+		is_communist,
+		exta,
+		extb,
+		fstusr_id,
+		fstusr_dtm,
+		lstusr_id,
+		lstusr_dtm,
+		is_delete,
+		valid_sta,
+		org_seq
+	</sql>
+
+    <insert id="addUser" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="usr_id">
+        INSERT INTO t_usermst
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="usr_name != null and usr_name != ''">
+                usr_name,
+            </if>
+            <if test="usr_gender != null">
+                usr_gender,
+            </if>
+            <if test="usr_ethnicity != null">
+                usr_ethnicity,
+            </if>
+            <if test="usr_domicile != null and usr_domicile != ''">
+                usr_domicile,
+            </if>
+            <if test="login_name != null and login_name != ''">
+                login_name,
+            </if>
+            <if test="usr_pwd != null and usr_pwd != ''">
+                usr_pwd,
+            </if>
+            <if test="usr_mobile != null and usr_mobile != ''">
+                usr_mobile,
+            </if>
+            <if test="usr_phone != null and usr_phone != ''">
+                usr_phone,
+            </if>
+            <if test="usr_email != null and usr_email != ''">
+                usr_email,
+            </if>
+            <if test="usr_idcard != null and usr_idcard != ''">
+                usr_idcard,
+            </if>
+            <if test="usr_birthday != null">
+                usr_birthday,
+            </if>
+            <if test="usr_education != null">
+                usr_education,
+            </if>
+            <if test="usr_addr != null and usr_addr != ''">
+                usr_addr,
+            </if>
+            <if test="usr_org != null and usr_org != ''">
+                usr_org,
+            </if>
+            <if test="usr_wechat != null and usr_wechat != ''">
+                usr_wechat,
+            </if>
+            <if test="usr_qq != null and usr_qq != ''">
+                usr_qq,
+            </if>
+            <if test="usr_health != null">
+                usr_health,
+            </if>
+            <if test="usr_duty != null and usr_duty != ''">
+                usr_duty,
+            </if>
+            <if test="usr_photo != null and usr_photo != ''">
+                usr_photo,
+            </if>
+            <if test="is_communist != null and is_communist != ''">
+                is_communist,
+            </if>
+            <if test="exta != null and exta != ''">
+                exta,
+            </if>
+            <if test="extb != null and extb != ''">
+                extb,
+            </if>
+            <if test="fstusr_id != null">
+                fstusr_id,
+            </if>
+            <if test="fstusr_dtm != null">
+                fstusr_dtm,
+            </if>
+            <if test="lstusr_id != null">
+                lstusr_id,
+            </if>
+            <if test="lstusr_dtm != null">
+                lstusr_dtm,
+            </if>
+            <if test="is_delete != null and is_delete != ''">
+                is_delete,
+            </if>
+            <if test="valid_sta != null and valid_sta != ''">
+                valid_sta,
+            </if>
+            <if test="org_seq != null">
+                org_seq,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="usr_name != null and usr_name != ''">
+                #{usr_name},
+            </if>
+            <if test="usr_gender != null">
+                #{usr_gender},
+            </if>
+            <if test="usr_ethnicity != null">
+                #{usr_ethnicity},
+            </if>
+            <if test="usr_domicile != null and usr_domicile != ''">
+                #{usr_domicile},
+            </if>
+            <if test="login_name != null and login_name != ''">
+                #{login_name},
+            </if>
+            <if test="usr_pwd != null and usr_pwd != ''">
+                #{usr_pwd},
+            </if>
+            <if test="usr_mobile != null and usr_mobile != ''">
+                #{usr_mobile},
+            </if>
+            <if test="usr_phone != null and usr_phone != ''">
+                #{usr_phone},
+            </if>
+            <if test="usr_email != null and usr_email != ''">
+                #{usr_email},
+            </if>
+            <if test="usr_idcard != null and usr_idcard != ''">
+                #{usr_idcard},
+            </if>
+            <if test="usr_birthday != null">
+                #{usr_birthday},
+            </if>
+            <if test="usr_education != null">
+                #{usr_education},
+            </if>
+            <if test="usr_addr != null and usr_addr != ''">
+                #{usr_addr},
+            </if>
+            <if test="usr_org != null and usr_org != ''">
+                #{usr_org},
+            </if>
+            <if test="usr_wechat != null and usr_wechat != ''">
+                #{usr_wechat},
+            </if>
+            <if test="usr_qq != null and usr_qq != ''">
+                #{usr_qq},
+            </if>
+            <if test="usr_health != null">
+                #{usr_health},
+            </if>
+            <if test="usr_duty != null and usr_duty != ''">
+                #{usr_duty},
+            </if>
+            <if test="usr_photo != null and usr_photo != ''">
+                #{usr_photo},
+            </if>
+            <if test="is_communist != null and is_communist != ''">
+                #{is_communist},
+            </if>
+            <if test="exta != null and exta != ''">
+                #{exta},
+            </if>
+            <if test="extb != null and extb != ''">
+                #{extb},
+            </if>
+            <if test="fstusr_id != null">
+                #{fstusr_id},
+            </if>
+            <if test="fstusr_dtm != null">
+                #{fstusr_dtm},
+            </if>
+            <if test="lstusr_id != null">
+                #{lstusr_id},
+            </if>
+            <if test="lstusr_dtm != null">
+                #{lstusr_dtm},
+            </if>
+            <if test="is_delete != null and is_delete != ''">
+                #{is_delete},
+            </if>
+            <if test="valid_sta != null and valid_sta != ''">
+                #{valid_sta},
+            </if>
+            <if test="org_seq != null">
+                #{org_seq},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="queryUser" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM t_usermst WHERE 1=1 AND is_delete = '0' AND valid_sta ='0'
+        <if test="usr_id != null">
+            AND usr_id = #{usr_id}
+        </if>
+        <if test="usr_name != null and usr_name != ''">
+            AND usr_name = #{usr_name}
+        </if>
+        <if test="usr_gender != null">
+            AND usr_gender = #{usr_gender}
+        </if>
+        <if test="usr_ethnicity != null">
+            AND usr_ethnicity = #{usr_ethnicity}
+        </if>
+        <if test="usr_domicile != null and usr_domicile != ''">
+            AND usr_domicile = #{usr_domicile}
+        </if>
+        <if test="login_name != null and login_name != ''">
+            AND login_name = #{login_name}
+        </if>
+        <if test="usr_pwd != null and usr_pwd != ''">
+            AND usr_pwd = #{usr_pwd}
+        </if>
+        <if test="usr_mobile != null and usr_mobile != ''">
+            AND usr_mobile = #{usr_mobile}
+        </if>
+        <if test="usr_phone != null and usr_phone != ''">
+            AND usr_phone = #{usr_phone}
+        </if>
+        <if test="usr_email != null and usr_email != ''">
+            AND usr_email = #{usr_email}
+        </if>
+        <if test="usr_idcard != null and usr_idcard != ''">
+            AND usr_idcard = #{usr_idcard}
+        </if>
+        <if test="usr_birthday != null">
+            AND usr_birthday = #{usr_birthday}
+        </if>
+        <if test="usr_education != null">
+            AND usr_education = #{usr_education}
+        </if>
+        <if test="usr_addr != null and usr_addr != ''">
+            AND usr_addr = #{usr_addr}
+        </if>
+        <if test="usr_org != null and usr_org != ''">
+            AND usr_org = #{usr_org}
+        </if>
+        <if test="usr_wechat != null and usr_wechat != ''">
+            AND usr_wechat = #{usr_wechat}
+        </if>
+        <if test="usr_qq != null and usr_qq != ''">
+            AND usr_qq = #{usr_qq}
+        </if>
+        <if test="usr_health != null">
+            AND usr_health = #{usr_health}
+        </if>
+        <if test="usr_duty != null and usr_duty != ''">
+            AND usr_duty = #{usr_duty}
+        </if>
+        <if test="usr_photo != null and usr_photo != ''">
+            AND usr_photo = #{usr_photo}
+        </if>
+        <if test="is_communist != null and is_communist != ''">
+            AND is_communist = #{is_communist}
+        </if>
+        ORDER BY usr_id ASC
+    </select>
+
+    <update id="updateUserById" parameterType="java.util.Map">
+        update t_usermst
+        <set>
+            <if test="usr_name != null and usr_name != ''">
+                usr_name = #{usr_name},
+            </if>
+            <if test="usr_gender != null">
+                usr_gender = #{usr_gender},
+            </if>
+            <if test="usr_ethnicity != null">
+                usr_ethnicity = #{usr_ethnicity},
+            </if>
+            <if test="usr_domicile != null">
+                usr_domicile = #{usr_domicile},
+            </if>
+            <if test="login_name != null">
+                login_name = #{login_name},
+            </if>
+            <if test="usr_pwd != null">
+                usr_pwd = #{usr_pwd},
+            </if>
+            <if test="usr_mobile != null and usr_mobile != ''">
+                usr_mobile = #{usr_mobile},
+            </if>
+            <if test="usr_phone != null">
+                usr_phone = #{usr_phone},
+            </if>
+            <if test="usr_email != null">
+                usr_email = #{usr_email},
+            </if>
+            <if test="usr_idcard != null">
+                usr_idcard = #{usr_idcard},
+            </if>
+            <if test="usr_birthday != null">
+                usr_birthday = #{usr_birthday},
+            </if>
+            <if test="usr_education != null">
+                usr_education = #{usr_education},
+            </if>
+            <if test="usr_addr != null">
+                usr_addr = #{usr_addr},
+            </if>
+            <if test="usr_org != null">
+                usr_org = #{usr_org},
+            </if>
+            <if test="usr_wechat != null">
+                usr_wechat = #{usr_wechat},
+            </if>
+            <if test="usr_qq != null">
+                usr_qq = #{usr_qq},
+            </if>
+            <if test="usr_health != null">
+                usr_health = #{usr_health},
+            </if>
+            <if test="usr_duty != null">
+                usr_duty = #{usr_duty},
+            </if>
+            <if test="usr_photo != null">
+                usr_photo = #{usr_photo},
+            </if>
+            <if test="is_communist != null">
+                is_communist = #{is_communist},
+            </if>
+            <if test="exta != null">
+                exta = #{exta},
+            </if>
+            <if test="extb != null">
+                extb = #{extb},
+            </if>
+            <if test="fstusr_id != null">
+                fstusr_id = #{fstusr_id},
+            </if>
+            <if test="fstusr_dtm != null">
+                fstusr_dtm = #{fstusr_dtm},
+            </if>
+            <if test="lstusr_id != null">
+                lstusr_id = #{lstusr_id},
+            </if>
+            <if test="lstusr_dtm != null">
+                lstusr_dtm = #{lstusr_dtm},
+            </if>
+            <if test="is_delete != null and is_delete != ''">
+                is_delete = #{is_delete},
+            </if>
+            <if test="valid_sta != null and valid_sta != ''">
+                valid_sta = #{valid_sta},
+            </if>
+            <if test="org_seq != null">
+                org_seq = #{org_seq},
+            </if>
+        </set>
+        WHERE 1=1 AND is_delete = '0' AND valid_sta ='0' AND usr_id = #{usr_id}
+    </update>
+
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+		UPDATE t_usermst
+        SET is_delete = '1'
+        WHERE
+            1 = 1
+            AND is_delete = '0'
+            AND valid_sta = '0'
+            AND usr_id = #{userId}
+	</delete>
+
+    <delete id="deleteUserForReal" parameterType="java.lang.Integer">
+		DELETE
+        FROM
+            t_usermst
+        WHERE usr_id = #{userId}
+	</delete>
+
+    <select id="queryUserByIdForApp" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT
+            T1.usr_photo AS img_url,
+            T1.usr_name,
+            T1.usr_org,
+            T1.usr_duty AS duty,
+            T1.usr_email AS email,
+            T1.usr_mobile AS mobile,
+            T1.is_communist,
+            T3.partyorg_id AS partyid,
+            T3.partyorg_name AS partyname
+        FROM (SELECT usr_id,usr_photo,usr_name,usr_org,usr_duty,usr_email,usr_mobile,is_communist
+              FROM t_usermst
+              WHERE usr_id = #{userId} AND is_delete = '0' AND valid_sta = '0') T1
+        LEFT JOIN(SELECT usr_id,communist_org
+                  FROM t_communistmst
+                  WHERE is_delete = '0' AND valid_sta = '0') T2 ON T1.usr_id = T2.usr_id
+        LEFT JOIN(SELECT partyorg_id,partyorg_name
+	              FROM t_partyorgmst
+	              WHERE is_delete = '0' AND valid_sta = '0') T3 ON T2.communist_org = T3.partyorg_id
+    </select>
+
+
+
+    <resultMap id="userEntityMap" type="UserEntity">
+        <result property="userId" column="usr_id" javaType="java.lang.Integer"/>
+        <result property="userName" column="usr_name" javaType="java.lang.String"/>
+        <result property="userGender" column="usr_gender" javaType="java.lang.String"/>
+        <result property="userMobile" column="usr_mobile" javaType="java.lang.String"/>
+        <result property="userEmail" column="usr_email" javaType="java.lang.String"/>
+        <result property="userIdcard" column="usr_idcard" javaType="java.lang.String"/>
+        <result property="userPhoto" column="usr_photo" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="queryUserOne" parameterType="String" resultMap="userEntityMap">
+        SELECT * FROM t_usermst WHERE is_delete = '0'
+        AND login_name = #{userName}
+        AND usr_pwd = #{password}
+    </select>
+</mapper>
