@@ -10,8 +10,10 @@ public interface TokenService {
 
     String create(UserEntity user, String channel);
 
-    String create(String userId, String userName, String channel);
-
     Map<String, Claim> decoded(String token);
+
+    Integer getTokenExpiresTime();
+
+    Integer getTokenUpdateInterval();
 
 }

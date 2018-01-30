@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Description 注册登录注销账户控制器
@@ -27,6 +26,7 @@ public class LoginController extends BaseController{
     @Resource
     private TokenService tokenService;
 
+
     @RequestMapping(value = "/login")
     public Result login(@RequestParam("userName") String userName,
                         @RequestParam("password") String password,
@@ -39,6 +39,15 @@ public class LoginController extends BaseController{
         }
 
         String token = tokenService.create(user, channel);
+
+        // 构建redis token key
+        String userKey = "token_" + channel + "_" + user.getUserId();
+        this.redisTemplate.opsForValue().set(userKey, token);
+        // 设置token有效时间
+        this.redisTemplate.expire(userKey, tokenService.getTokenExpiresTime(), TimeUnit.SECONDS);
+
+        this.redisTemplate.opsForValue().set("user_info_" + user.getUserId(), user);
+
 
         Result result = this.success(user);
         result.setToken(token);

@@ -72,6 +72,8 @@ laks:
     path: /
     httpurl: http://192.168.0.129:18085/ftp/dangjian
   jwt:
+    issuer: luculent@automation  #jwt发行者
+    secret: luculent@2018_partycons  #jwt秘钥
     expires-time: 7200
     update-interval: 1800
 
