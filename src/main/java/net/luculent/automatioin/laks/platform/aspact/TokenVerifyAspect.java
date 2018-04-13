@@ -26,8 +26,8 @@ import java.util.concurrent.TimeUnit;
  * Author zhuzb
  * CreateTime 2018-01-22 18:00
  **/
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class TokenVerifyAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenVerifyAspect.class);
@@ -44,6 +44,13 @@ public class TokenVerifyAspect {
      */
     @Pointcut("execution(* net.luculent.automatioin.laks.platform.controller.TokenController+.*(..))")
     public void serviceTokenVerify() {
+    }
+
+    /**
+     * Controller层切点
+     */
+    @Pointcut("@annotation(net.luculent.automatioin.laks.platform.annotation.TokenVerify)")
+    public  void controllerAspect() {
     }
 
     /**

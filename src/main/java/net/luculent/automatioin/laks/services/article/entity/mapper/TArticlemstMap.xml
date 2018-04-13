@@ -77,7 +77,15 @@
         FROM t_articlemst atc, t_usermst WHERE atc.is_delete = '0' AND atc.fstusr_id = usr_id AND atc_seq = #{atcSeq}
     </select>
 
-    <select id="queryList" parameterType="java.util.Map" resultType="java.util.Map">
+    <resultMap id="ArticleEntity" type="java.util.Map" >
+        <id column="atc_seq" property="atcSeq"/>
+        <result column="atc_title" property="title"/>
+        <result column="img_url" property="imgUrl"/>
+        <result column="act_type" property="type"/>
+        <result column="usr_name" property="createBy"/>
+        <result column="fstusr_dtm" property="createTime" javaType="java.time.LocalDateTime" />
+    </resultMap>
+    <select id="queryList" parameterType="java.util.Map" resultMap="ArticleEntity">
         SELECT atc_seq, atc_title, atc_summary, atc_content, atc_source, img_url, act_type, is_comment, atc.fstusr_id, atc.fstusr_dtm, usr_name
         FROM t_articlemst atc, t_usermst
         <where>
@@ -95,49 +103,4 @@
         </where>
     </select>
 
-    <select id="queryActListForApp" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT
-            t1.atc_seq as id,
-            t1.atc_title as title,
-            t1.atc_source as source,
-            COUNT( t2.comment_id ) AS comment_num,
-            t1.img_url
-        FROM
-            t_articlemst t1
-            LEFT JOIN ( SELECT comment_id, comment_module_pk FROM t_commentmst WHERE valid_sta = '0' AND is_delete = '0' ) t2 ON t1.atc_seq = t2.comment_module_pk
-        WHERE
-            1 = 1
-            AND t1.act_type = #{actType}
-            AND t1.valid_sta = '0'
-            AND t1.is_delete = '0'
-            AND EXISTS(SELECT communist_id FROM t_communistmst WHERE valid_sta = '0' AND is_delete = '0' AND t1.fstusr_id = usr_id
-                       AND communist_org IN <foreach item="orgs" index="index" collection="orgs" open="(" separator="," close=")"> #{orgs} </foreach> )
-        GROUP BY
-            t1.atc_seq
-        ORDER BY
-            t1.fstusr_dtm DESC
-    </select>
-
-    <select id="queryActByIdForApp" parameterType="java.lang.Integer" resultType="java.util.Map">
-        SELECT
-            t1.atc_seq as id,
-            t1.atc_title as title,
-            t1.atc_content as content,
-            t1.atc_source as source,
-            t1.img_url as img,
-            t1.is_comment as can_comment,
-            t1.fstusr_id as author,
-            t1.fstusr_dtm as pubdate,
-            '0' as has_comment,
-            '0' as has_upvote,
-            ( SELECT count(t2.comment_id)  FROM t_commentmst t2 WHERE t2.comment_module_pk = t1.atc_seq and valid_sta = '0' AND is_delete = '0' ) AS comment_num,
-            ( SELECT count(t3.upvote_id)  FROM t_upvotemst t3 WHERE t3.upvote_module_pk = t1.atc_seq AND is_delete = '0' ) AS upvote_num
-        FROM
-            t_articlemst t1
-        WHERE
-            1 = 1
-            AND is_delete = '0'
-            AND valid_sta = '0'
-            AND atc_seq = #{atcSeq}
-    </select>
 </mapper>

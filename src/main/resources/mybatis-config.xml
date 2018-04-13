@@ -8,6 +8,10 @@
 		<typeAlias type="net.luculent.automatioin.laks.platform.entity.UserEntity" alias="UserEntity" />
 	</typeAliases>
 
+	<typeHandlers>
+		<typeHandler handler="org.apache.ibatis.type.LocalDateTimeTypeHandler" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"/>
+	</typeHandlers>
+
 	<!-- 配置分页插件 -->
 	<plugins>
 		<plugin interceptor="com.github.pagehelper.PageInterceptor">
@@ -19,9 +23,16 @@
 
 	<mappers>
 		<mapper resource="net/luculent/automatioin/laks/platform/entity/mapper/UserMap.xml"></mapper>
+		<mapper resource="net/luculent/automatioin/laks/platform/entity/mapper/UserRoleAccessMap.xml"></mapper>
+		<mapper resource="net/luculent/automatioin/laks/platform/entity/mapper/RoleMap.xml"></mapper>
+		<mapper resource="net/luculent/automatioin/laks/platform/entity/mapper/PowerMap.xml"></mapper>
+		<mapper resource="net/luculent/automatioin/laks/platform/entity/mapper/MenuMap.xml"></mapper>
 
-		<mapper resource="net/luculent/automatioin/laks/services/article/entity/mapper/TArticlemstMap.xml"></mapper>
-		<mapper resource="net/luculent/automatioin/laks/services/article/entity/mapper/TArticletypemstMap.xml"></mapper>
+
+		<!--<package name="net.luculent.automatioin.laks.platform.entity.mapper"></package>-->
+
+		<!--<mapper resource="net/luculent/automatioin/laks/services/article/entity/mapper/TArticlemstMap.xml"></mapper>-->
+		<!--<mapper resource="net/luculent/automatioin/laks/services/article/entity/mapper/TArticletypemstMap.xml"></mapper>-->
 
 	</mappers>
 

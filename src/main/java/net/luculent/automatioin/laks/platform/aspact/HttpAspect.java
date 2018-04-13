@@ -16,8 +16,8 @@ import java.util.Enumeration;
  * @Date Create In 13:45 2018/1/30
  * @Modified By:
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class HttpAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpAspect.class);

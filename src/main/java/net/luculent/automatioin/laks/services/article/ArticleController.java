@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/services")
-public class ArticleController extends BaseController implements TokenController {
+public class ArticleController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
@@ -152,19 +152,19 @@ public class ArticleController extends BaseController implements TokenController
      * @return
      */
     @PostMapping(value = "/article/getPageInfo")
-    public Result getPageInfo(@RequestBody String body) throws Exception {
+    public Result getPageInfo(@RequestBody JSONObject body) throws Exception {
 
         if (logger.isInfoEnabled()) {
             logger.info("RequestBody === >> " + body);
         }
 
-        JSONObject obj = JSON.parseObject(body);
+//        JSONObject obj = JSON.parseObject(body);
 
-        String type = obj.getString("type");
+        String type = body.getString("type");
 
-        String title = obj.getString("title");
+        String title = body.getString("title");
 
-        JSONObject pageInfo = obj.getJSONObject("pageInfo");
+        JSONObject pageInfo = body.getJSONObject("pageInfo");
 
         int pageNo = pageInfo.getInteger("pageNo");
 
@@ -175,20 +175,6 @@ public class ArticleController extends BaseController implements TokenController
         condition.put("atcType", type);
 
         PageInfo result = articleService.queryArticlePageInfo(condition, pageNo, pageSize);
-
-        List<Map<String, Object>> list = result.getList();
-        list = list.stream().map(m -> {
-            Map<String, Object> article = new HashMap<>(6);
-            article.put("atcSeq", m.get("atc_seq")); // 编号
-            article.put("title", m.get("atc_title")); // 标题"
-            article.put("imgUrl", m.get("img_url")); // 图片地址
-            article.put("type", m.get("act_type"));  // 类型
-            article.put("createBy", m.get("usr_name"));  // 创建人
-            article.put("createTime", m.get("fstusr_dtm"));  // 创建时间
-            return article;
-        }).collect(Collectors.toList());
-
-        result.setList(list);
 
         return this.success(result);
     }

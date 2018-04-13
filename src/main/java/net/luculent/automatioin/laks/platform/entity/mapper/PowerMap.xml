@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.luculent.automatioin.laks.platform.dao.PowerDao">
+
+    <insert id="add" parameterType="java.util.Map" >
+        INSERT INTO t_powermst(
+        power_number,
+        power_name,
+        description,
+        fstusr_id,
+        fstusr_dtm,
+        is_delete)
+        VALUES (
+        #{powerNumber,jdbcType=VARCHAR},
+        #{powerName,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR},
+        #{fstusrId},
+        #{fstusrDtm},
+        '0')
+    </insert>
+
+    <update id="modify" parameterType="java.util.Map">
+        UPDATE t_powermst
+        <set>
+            <if test="power_name != null">
+                power_name=#{powerName},
+            </if>
+            <if test="power_url != null">
+                power_url=#{powerUrl},
+            </if>
+            <if test="description != null">
+                description=#{description},
+            </if>
+            <if test="lstusrId != null">
+                lstusr_id=#{lstusrId},
+            </if>
+            <if test="lstusrDtm != null">
+                lstusr_dtm=#{lstusrDtm},
+            </if>
+
+        </set>
+        WHERE is_delete = '0' AND power_seq=#{powerSeq}
+    </update>
+
+    <update id="delete" parameterType="java.lang.Integer">
+        UPDATE t_powermst SET is_delete = '1'
+        WHERE is_delete = '0' AND power_seq=#{powerSeq}
+    </update>
+
+    <select id="queryOne" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT power_seq, power_number, power_name,description
+        FROM t_powermst
+        WHERE is_delete = '0' AND power_seq=#{powerSeq}
+    </select>
+
+    <resultMap id="powerEntity" type="java.util.Map" >
+        <id column="power_seq" property="powerSeq"/>
+        <result column="power_name" property="powerName"/>
+        <result column="power_number" property="powerNumber"/>
+        <result column="power_url" property="powerUrl"/>
+        <result column="fstusr_dtm" property="createTime" />
+    </resultMap>
+    <select id="queryList" parameterType="java.util.Map" resultMap="powerEntity">
+        SELECT power_seq, power_name, power_number, fstusr_dtm
+        FROM t_powermst
+        <where>
+            power.is_delete = '0'
+            <if test="power_name != null and power_name != ''">
+                AND power_name LIKE '%'||#{powerName}||'%'
+            </if>
+            ORDER BY fstusr_dtm DESC
+        </where>
+    </select>
+</mapper>

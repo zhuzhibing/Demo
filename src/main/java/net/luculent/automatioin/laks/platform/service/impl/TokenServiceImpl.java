@@ -63,7 +63,7 @@ public class TokenServiceImpl implements TokenService {
                                 // 判断token是否合法
                                 Algorithm algorithm = Algorithm.HMAC256(secret);
                                 JWTVerifier verifier = JWT.require(algorithm).withIssuer(issuer).build();
-                                return verifier.verify(token);
+                                return verifier.verify(t);
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
                                 return null;

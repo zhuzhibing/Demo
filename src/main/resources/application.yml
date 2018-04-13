@@ -25,6 +25,7 @@ spring:
       remove-abandoned-timeout: 60
       jdbc-interceptors: org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer
       max-idle: 50
+
   http:
       encoding:
         force: true
@@ -33,7 +34,6 @@ spring:
       multipart:
         max-file-size: 2048MB
         max-request-size: 2048MB
-
 
   redis:
     host: 192.168.0.33
@@ -44,7 +44,11 @@ spring:
       max-active: 8
       max-idle: 8
       max-wait: -1
-      pool.min-idle: 0
+      min-idle: 0
+
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
 
 
 server:
@@ -55,8 +59,10 @@ server:
   tomcat:
     uri-encoding: UTF-8
 
+
 logging:
   config: classpath:logback-spring.xml
+
 
 ## mybatis
 mybatis:

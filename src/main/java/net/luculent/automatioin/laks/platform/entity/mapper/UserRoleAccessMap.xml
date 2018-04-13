@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.luculent.automatioin.laks.platform.dao.RoleAccessDao">
+
+    <select id="getUserAccess" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM t_userrolelnk usrolnk, t_rolepowerlnk ropolnk,t_poweraccesslnk poaclnk,t_accessmst accessmst
+        WHERE usrolnk.role_id = ropolnk.role_id
+        AND ropolnk.power_id = poaclnk.power_id
+        AND poaclnk.access_id = accessmst.access_seq
+        AND accessmst.is_delete = '0'
+        AND usrolnk.user_id = #{userId}
+        <if test="urlMethod != null and urlMethod != ''">
+            AND accessmst.url_method = #{urlMethod}
+        </if>
+        AND accessmst.access_url LIKE '%'||#{url}||'%'
+    </select>
+
+    <select id="getUserAccessUrl" resultType="java.util.Map">
+        SELECT COUNT(1)
+        FROM t_userrolelnk usrolnk, t_rolepowerlnk ropolnk,t_poweraccesslnk poaclnk,t_accessmst accessmst
+        WHERE usrolnk.role_id = ropolnk.role_id
+        AND ropolnk.power_id = poaclnk.power_id
+        AND poaclnk.access_id = accessmst.access_seq
+        AND accessmst.is_delete = '0'
+        AND usrolnk.user_id = #{userId}
+    </select>
+
+    <insert id="addAccessUrl" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="accessSeq" >
+        INSERT INTO t_accessmst(
+        access_name,
+        access_url,
+        url_method,
+        description,
+        fstusr_id,
+        fstusr_dtm,
+        is_delete)
+        VALUES (
+        #{accessName,jdbcType=VARCHAR},
+        #{accessUrl,jdbcType=VARCHAR},
+        #{urlMethod,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR},
+        #{fstusrId},
+        #{fstusrDtm},
+        '0')
+    </insert>
+
+
+    <update id="clearAccessUrl">
+        TRUNCATE TABLE t_accessmst
+    </update>
+
+
+
+    <insert id="allotPowerAccess">
+        INSERT INTO t_poweraccesslnk(
+        power_id,
+        access_id)
+        VALUES (
+        #{powerId},
+        #{accessId})
+    </insert>
+
+    <delete id="deletePowerAccessByPowerId">
+      DELETE FROM t_poweraccesslnk WHERE power_id = #{powerId}
+    </delete>
+
+
+</mapper>

@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * CreateTime 2017-11-15 9:49
  **/
 @RestController
-@RequestMapping(value = "/platform")
+@RequestMapping(value = "/public/login")
 public class LoginController extends BaseController{
 
     @Resource
@@ -27,13 +27,13 @@ public class LoginController extends BaseController{
     private TokenService tokenService;
 
 
-    @RequestMapping(value = "/login")
-    public Result login(@RequestParam("userName") String userName,
+    @RequestMapping(value = "/web/public")
+    public Result login(@RequestParam("loginName") String loginName,
                         @RequestParam("password") String password,
                         @RequestParam("channel") String channel) throws Exception {
 
         //用户名密码登录
-        UserEntity user = userService.queryUser(userName, password);
+        UserEntity user = userService.queryUser(loginName, password);
         if (user == null) {
             return this.message(21011, "error incorrect username or password");
         }
@@ -48,8 +48,7 @@ public class LoginController extends BaseController{
 
         this.redisTemplate.opsForValue().set("user_info_" + user.getUserId(), user);
 
-
-        Result result = this.success(user);
+        Result result = this.success();
         result.setToken(token);
         return result;
 

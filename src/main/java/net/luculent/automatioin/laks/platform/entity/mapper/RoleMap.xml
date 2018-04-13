@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.luculent.automatioin.laks.platform.dao.RoleDao">
+
+
+    <insert id="add" parameterType="java.util.Map" >
+        INSERT INTO t_rolemst(
+        role_number,
+        role_name,
+        description,
+        fstusr_id,
+        fstusr_dtm,
+        is_delete)
+        VALUES (
+        #{roleNumber,jdbcType=VARCHAR},
+        #{roleName,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR},
+        #{fstusrId},
+        #{fstusrDtm},
+        '0')
+    </insert>
+
+    <update id="modify" parameterType="java.util.Map">
+        UPDATE t_rolemst
+        <set>
+            <if test="role_name != null">
+                role_name=#{roleName},
+            </if>
+            <if test="description != null">
+                description=#{description},
+            </if>
+            <if test="lstusrId != null">
+                lstusr_id=#{lstusrId},
+            </if>
+            <if test="lstusrDtm != null">
+                lstusr_dtm=#{lstusrDtm},
+            </if>
+
+        </set>
+        WHERE is_delete = '0' AND role_seq=#{roleSeq}
+    </update>
+
+    <update id="delete" parameterType="java.lang.Integer">
+        UPDATE t_rolemst SET is_delete = '1'
+        WHERE is_delete = '0' AND role_seq=#{roleSeq}
+    </update>
+
+    <select id="queryOne" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT role_seq, role_number, role_name,description
+        FROM t_rolemst
+        WHERE is_delete = '0' AND role_seq=#{roleSeq}
+    </select>
+
+    <resultMap id="roleEntity" type="java.util.Map" >
+        <id column="role_seq" property="roleSeq"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_number" property="roleNumber"/>
+        <result column="role_url" property="roleUrl"/>
+        <result column="fstusr_dtm" property="createTime" />
+    </resultMap>
+    <select id="queryList" parameterType="java.util.Map" resultMap="roleEntity">
+        SELECT role_seq, role_name, role_number, fstusr_dtm
+        FROM t_rolemst
+        <where>
+            role.is_delete = '0'
+            <if test="role_name != null and role_name != ''">
+                AND role_name LIKE '%'||#{roleName}||'%'
+            </if>
+            ORDER BY fstusr_dtm DESC
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.luculent.automatioin.laks.platform.dao.MenuDao">
+
+    <select id="getMenuByUserId" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT menu.*
+        FROM t_userrolelnk usrolnk, t_rolepowerlnk ropolnk,t_powermenulnk pomulnk,t_menumst menu
+        WHERE usrolnk.role_id = ropolnk.role_id
+        AND ropolnk.power_id = pomulnk.power_id
+        AND pomulnk.menu_id = menu.menu_seq
+        AND menu.is_delete = '0'
+        AND usrolnk.user_id = #{userId}
+    </select>
+
+    <insert id="add" parameterType="java.util.Map" >
+        INSERT INTO t_menumst(
+        menu_name,
+        menu_url,
+        description,
+        fstusr_id,
+        fstusr_dtm,
+        is_delete)
+        VALUES (
+        #{menuName,jdbcType=VARCHAR},
+        #{menuUrl,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR},
+        #{fstusrId},
+        #{fstusrDtm},
+        '0')
+    </insert>
+
+    <update id="modify" parameterType="java.util.Map">
+        UPDATE t_menumst
+        <set>
+            <if test="menu_name != null">
+                menu_name=#{menuName},
+            </if>
+            <if test="menu_url != null">
+                menu_url=#{menuUrl},
+            </if>
+            <if test="description != null">
+                description=#{description},
+            </if>
+            <if test="lstusrId != null">
+                lstusr_id=#{lstusrId},
+            </if>
+            <if test="lstusrDtm != null">
+                lstusr_dtm=#{lstusrDtm},
+            </if>
+
+        </set>
+        WHERE is_delete = '0' AND menu_seq=#{menuSeq}
+    </update>
+
+    <update id="delete" parameterType="java.lang.Integer">
+        UPDATE t_menumst SET is_delete = '1'
+        WHERE is_delete = '0' AND menu_seq=#{menuSeq}
+    </update>
+
+    <select id="queryOne" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT menu_seq, menu_name, menu_url
+        FROM t_menumst
+        WHERE is_delete = '0' AND menu_seq=#{menuSeq}
+    </select>
+
+    <resultMap id="MenuEntity" type="java.util.Map" >
+        <id column="menu_seq" property="menuSeq"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="fstusr_dtm" property="createTime" />
+    </resultMap>
+    <select id="queryList" parameterType="java.util.Map" resultMap="MenuEntity">
+        SELECT menu_seq, menu_name, menu_url, fstusr_dtm
+        FROM t_menumst
+        <where>
+            menu.is_delete = '0'
+            <if test="menu_name != null and menu_name != ''">
+                AND menu_name LIKE '%'||#{menuName}||'%'
+            </if>
+            ORDER BY fstusr_dtm DESC
+        </where>
+    </select>
+</mapper>
