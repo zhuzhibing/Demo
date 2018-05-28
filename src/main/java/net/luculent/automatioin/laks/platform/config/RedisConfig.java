@@ -38,8 +38,8 @@ public class RedisConfig {
 
     @SuppressWarnings("rawtypes")
     @Bean
-    public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        RedisCacheManager rcm = new RedisCacheManager(redisTemplate);
+    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+        RedisCacheManager rcm = RedisCacheManager.builder(connectionFactory).build();
         //设置缓存过期时间
         //rcm.setDefaultExpiration(60);//秒
         return rcm;
